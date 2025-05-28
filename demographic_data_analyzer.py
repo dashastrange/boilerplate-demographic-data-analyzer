@@ -24,7 +24,10 @@ def calculate_demographic_data(print_data=True):
     percentage = round((len(high_earners) / len(advanced_edu_df)) * 100, 1)
 
     # What percentage of people without advanced education makes more than 50K?
-    non_adv_edu_df = adult_pop_df[~adult_pop_df['education'].isin(advanced_edu)]
+    adult_pop_df['education'].drop_duplicates()
+    non_advanced_edu = adult_pop_df['education'].drop_duplicates()
+    non_advanced_edu = non_advanced_edu[~non_advanced_edu.isin(['Bachelors', 'Masters', 'Doctorate'])]
+    non_adv_edu_df = adult_pop_df[adult_pop_df['education'].isin(non_advanced_edu)]
     another_high_earners = non_adv_edu_df[non_adv_edu_df['salary'] == '>50K']
     percentage_non_edu = round((len(another_high_earners) / len(non_adv_edu_df)) * 100, 1)
 
@@ -36,7 +39,7 @@ def calculate_demographic_data(print_data=True):
     non_advanced_edu = ['HS-grad', '11th', '9th']
     non_adv_edu_df = adult_pop_df[adult_pop_df['education'].isin(non_advanced_edu)]
     another_high_earners = non_adv_edu_df[non_adv_edu_df['salary'] == '>50K']
-    lower_education_rich = (len(another_high_earners) / len(non_adv_edu_df)) * 100
+    lower_education_rich = percentage_non_edu
     higher_education_rich = percentage
 
     # What is the minimum number of hours a person works per week (hours-per-week feature)?
@@ -98,3 +101,6 @@ def calculate_demographic_data(print_data=True):
         highest_earning_country_percentage,
         'top_IN_occupation': top_IN_occupation
     }
+
+calculate_demographic_data()
+
