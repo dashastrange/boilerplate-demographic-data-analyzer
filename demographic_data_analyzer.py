@@ -70,8 +70,10 @@ def calculate_demographic_data(print_data=True):
     # Identify the most popular occupation for those who earn >50K in India.
     India_50k_occupation = adult_pop_df.loc[adult_pop_df['native-country'] == 'India', ['salary', 'occupation', ]]
     high_earners_India = India_50k_occupation.loc[India_50k_occupation['salary'] == '>50K']
+
     for occupation in high_earners_India:
         high_earners_occupations_count = high_earners_India['occupation'].value_counts()
+
     top_IN_occupation = high_earners_occupations_count.sort_values(ascending=False).head(1).index[0]
 
     # DO NOT MODIFY BELOW THIS LINE
